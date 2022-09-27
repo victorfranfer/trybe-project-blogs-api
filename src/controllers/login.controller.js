@@ -1,11 +1,11 @@
 const userService = require('../services/user.services');
 
 const login = async (req, res) => {
-  const token = await userService.getUser(req.body);
+  const result = await userService.login(req.body);
 
-  if (!token) return res.status(400).json({ message: 'Invalid fields' });
+  if (result.type === 'INVALID_FIELD') return res.status(400).json({ message: result.message });
 
-  return res.status(200).json(token);
+  return res.status(200).json({ token: result.token });
 };
 
 module.exports = {
