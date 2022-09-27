@@ -1,13 +1,15 @@
 const userService = require('../services/user.services');
 
-const getUser = async (req, res) => {
-  const token = await userService.getUser(req.body);
+const createUser = async (req, res) => {
+  const result = await userService.createUser(req.body);
 
-  if (!token) return res.status(400).json({ message: 'Invalid fields' });
+  if (result.type === 'INVALID_FIELD') return res.status(400).json(result.message);
 
-  return res.status(200).json(token);
+  if (result.type === 'USER_ALREADY_REGISTERED') return res.status(409).json(result.message);
+
+  return res.status(201).json(result);
 };
 
 module.exports = {
-  getUser,
+  createUser,
 };
