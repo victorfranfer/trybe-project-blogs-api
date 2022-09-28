@@ -7,6 +7,7 @@ const validateToken = async (req, res, next) => {
 
   if (validate.type) return res.status(401).json({ message: validate.message });
 
+  req.locals = validate;
   return next();
 };
 
