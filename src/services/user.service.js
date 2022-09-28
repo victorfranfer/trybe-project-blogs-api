@@ -37,8 +37,20 @@ const getUsers = async () => {
   return result;
 };
 
+const getUser = async (id) => {
+  const result = await User.findOne({ 
+    attributes: ['id', 'displayName', 'email', 'image'],
+    where: { id },
+  });
+
+  if (!result) return { type: 'INVALID_ID', message: 'User does not exist' };
+
+  return result;
+};
+
 module.exports = {
   login,
   createUser,
   getUsers,
+  getUser,
 };
