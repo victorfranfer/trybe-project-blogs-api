@@ -17,6 +17,20 @@ const generateToken = ({ id, displayName, email, image }) => {
   return token;
 };
 
+const authenticateToken = async (token) => {
+  if (!token) {
+    return { type: 'TOKEN_NOT_FOUND', message: 'Token not found' };
+  }
+
+  try {
+    const validateToken = jwt.verify(token, TOKEN_SECRET_KEY);
+    return validateToken;
+  } catch (error) {
+    return { type: 'INVALID_TOKEN', message: 'Expired or invalid token' };
+  }
+};
+
 module.exports = {
   generateToken,
+  authenticateToken,
 };
